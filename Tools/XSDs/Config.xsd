@@ -1,0 +1,86 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="config">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element name="id" type="xsd:string" minOccurs="0"
+					maxOccurs="1" />
+				<xsd:element name="client_port" type="xsd:string"
+					minOccurs="0" maxOccurs="1" default="2002" />
+				<xsd:element name="server_port" type="xsd:string"
+					minOccurs="0" maxOccurs="1" default="2000" />
+				<xsd:element name="control_port" type="xsd:string"
+					minOccurs="0" maxOccurs="1" default="2001" />
+				<xsd:element name="storage" type="Storage" minOccurs="0"
+					maxOccurs="1" />
+
+				<xsd:element name="connector_sleep_time" type="xsd:string"
+					minOccurs="0" maxOccurs="1" default="10" />
+
+				<xsd:element name="channel_capacity" type="xsd:string"
+					minOccurs="0" maxOccurs="1" />
+				
+				<!--  for server to server communication -->
+				<xsd:element name="synch_communication" type="xsd:boolean"
+					minOccurs="0" maxOccurs="1" default="false"/>
+
+				<xsd:element name="protocol_log_file" type="xsd:string"
+					default="protocol_log.txt" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="protocol_log_level" type="xsd:string"
+					default="severe" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="protocol_log_type" type="xsd:string"
+					default="text" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="protocol_std_log_level" type="xsd:string"
+					default="off" minOccurs="0" maxOccurs="1" />
+
+				<xsd:element name="framework_log_file" type="xsd:string"
+					default="framework_log.txt" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="framework_log_level" type="xsd:string"
+					default="severe" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="framework_log_type" type="xsd:string"
+					default="text" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="framework_std_log_level" type="xsd:string"
+					default="off" minOccurs="0" maxOccurs="1" />
+
+				<xsd:element name="connect_to" type="ConnectTo"
+					minOccurs="0" maxOccurs="1" />
+
+				<xsd:element name="protocol_properties" minOccurs="0"
+					maxOccurs="1">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="property" type="Property"
+								minOccurs="1" maxOccurs="unbounded" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="ConnectTo">
+		<xsd:sequence>
+			<xsd:element name="server" type="ServerInfo" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ServerInfo">
+		<xsd:attribute name="id" type="xsd:string" use="required" />
+		<xsd:attribute name="ip" type="xsd:string" use="required" />
+		<xsd:attribute name="port" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Storage">
+		<xsd:sequence>
+			<xsd:element name="class_name" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="property" type="Property" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Property">
+		<xsd:attribute name="key" type="xsd:string" use="required" />
+		<xsd:attribute name="value" type="xsd:string" use="required" />
+	</xsd:complexType>
+</xsd:schema>
