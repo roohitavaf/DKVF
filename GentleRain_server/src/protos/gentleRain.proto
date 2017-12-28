@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package Metadata; 
+
+option java_package = "edu.msu.cse.dkvf.metadata";
+option java_outer_classname = "Metadata";
+option optimize_for=SPEED;
+
+message Record {
+	bytes value = 2; 
+	int64 ut = 3;
+	int32 sr = 4;
+}
+
+
+//---------------Client messages---------------
+message GetMessage {
+	 string key =1;
+	 int64 gst = 2;  
+}
+
+message PutMessage {
+	 string key =1;
+	 bytes value = 2;
+	 int64 dt = 3;  
+}
+
+
+message ClientMessage {
+	oneof message_type {
+		GetMessage get_message = 1;
+		PutMessage put_message = 2;
+	}
+ }
+//-----------------------------------------------
+
+//-----------------Client Reply------------------
+message GetReply{
+	bytes value = 1;
+	int64 ut = 2;
+	int64 gst = 3; 
+}
+
+message PutReply{
+	int64 ut = 1; 
+}
+
+message ClientReply {
+	bool status = 1;
+	oneof message_type{
+		GetReply get_reply= 2;
+		PutReply put_reply= 3;
+	}
+}
+//-----------------------------------------------
+//-----------------Server messages---------------
+message ReplicateMessage {
+	string key = 1;
+	Record rec = 2;
+	int32 dc_id = 3;
+}
+
+message HeartbeatMessage {
+	int64 time = 1; 
+	int32 dc_id = 2;
+}
+
+message VVMessage {
+	repeated int64 vvItem = 1;
+	int32 p_id = 2;
+}
+
+message GSTMessage {
+	int64 gst = 1;
+	int32 p_id = 2;
+}
+message ServerMessage {
+	oneof message_type{
+		ReplicateMessage replicate_message = 1;
+		HeartbeatMessage heartbeat_message = 2;
+		VVMessage vv_message = 3; 
+		GSTMessage gst_message = 4;
+	}
+}
+//-----------------------------------------------
+
+
+
