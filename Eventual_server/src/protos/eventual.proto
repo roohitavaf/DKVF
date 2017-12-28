@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package Metadata; 
+
+option java_package = "edu.msu.cse.dkvf.metadata";
+option java_outer_classname = "Metadata";
+
+
+message Record {  // A record item
+	bytes value = 2;  //value
+	int64 ut = 3;     //update time
+	int32 sr = 4;     //source replica ID
+}
+
+
+//---------------Client messages---------------
+message GetMessage { 
+	 string key =1;
+}
+
+message PutMessage {
+	 string key =1;
+	 bytes value = 2;
+}
+
+
+message ClientMessage {
+	oneof message_type {
+		GetMessage get_message = 1;
+		PutMessage put_message = 2;
+	}
+ }
+//-----------------------------------------------
+
+//-----------------Client Reply------------------
+message GetReply{
+	bytes value = 1;
+}
+
+message PutReply{
+	int64 ut = 1;
+	int32 sr =2; 
+}
+message ClientReply {
+	bool status = 1;
+	oneof message_type{
+		GetReply get_reply= 2;
+		PutReply put_reply= 3;
+	}
+}
+//-----------------------------------------------
+//-----------------Server messages---------------
+message ReplicateMessage {
+	string key=1;
+	Record rec = 2;
+}
+
+
+
+
+message ServerMessage {
+	ReplicateMessage replicate_message = 1;
+}
+//-----------------------------------------------
+
