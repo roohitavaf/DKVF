@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package Metadata; 
+
+option java_package = "edu.msu.cse.dkvf.metadata";
+option java_outer_classname = "Metadata";
+
+
+message Dependency {
+	string key = 1;
+	int64 version = 2;
+}
+
+message Record {
+	bytes value = 1; 
+	int64 version = 2;
+}
+
+
+//---------------Client messages---------------
+message GetMessage {
+	 string key =1;
+}
+
+message PutMessage {
+	 string key = 1;
+	 bytes value = 2;
+	 repeated Dependency nearest = 3;
+}
+
+
+message ClientMessage {
+	oneof message_type {
+		GetMessage get_message = 1;
+		PutMessage put_message = 2;
+	}
+ }
+//-----------------------------------------------
+
+//-----------------Client Reply------------------
+message GetReply{
+	Record record = 1;
+}
+
+message PutReply{
+	int64 version = 1;
+}
+message ClientReply {
+	bool status = 1;
+	oneof message_type{
+		GetReply get_reply= 2;
+		PutReply put_reply= 3;
+	}
+}
+//-----------------------------------------------
+//-----------------Server messages---------------
+message ReplicateMessage {
+	Record rec = 1;
+	repeated Dependency nearest =2 ;
+}
+
+message DependencyCheckMessage {
+	Dependency dep = 1;
+}
+
+message DependencyResponseMessage {
+	Dependency dep = 1;
+}
+
+message ServerMessage {
+	oneof message_type{
+		ReplicateMessage replicate_message = 1;
+		DependencyCheckMessage dep_check_message = 2;
+		DependencyResponseMessage dep_response_message = 3; 
+	}
+}
+//-----------------------------------------------
+
