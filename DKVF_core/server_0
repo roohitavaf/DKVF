@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config>
+    <id>0</id>
+    <client_port>2002</client_port>
+    <control_port>2001</control_port>
+    <storage>
+        <property key="multi_version" value="false"/>
+    </storage>
+    <framework_std_log_level>finest</framework_std_log_level>
+    <protocol_properties>
+        <property key="dc_id" value="0"/>
+        <property key="num_of_partitions" value="1"/>
+        <property key="num_of_datacenters" value="1"/>
+        <property key="p_id" value="0"/>
+    </protocol_properties>
+</config>
