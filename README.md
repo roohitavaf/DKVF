@@ -1,2 +1,2 @@
 # DKVF
-Please refere to Wiki. 
+Please refer to Wiki. 
