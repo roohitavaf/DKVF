@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="experiment">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element name="name" type="xsd:string" minOccurs="1"
+					maxOccurs="1" />
+				<xsd:element name="defaults" type="Parameters"
+					minOccurs="0" maxOccurs="1" />
+				<xsd:element name="clients" type="Clients" minOccurs="1"
+					maxOccurs="1" />
+				<xsd:element name="workload_variations" type="Variations"
+					minOccurs="0" maxOccurs="1" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="Parameters">
+		<xsd:all>
+			<xsd:element name="os" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="client_jar_file" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="client_class_name" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ycsb_driver" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="workload" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="username" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="password" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="key" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="working_directory" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="client_port" type="xsd:string"
+				minOccurs="0" maxOccurs="1" default="2001" />
+			<xsd:element name="server_port" type="xsd:string"
+				minOccurs="0" maxOccurs="1" default="2000" />
+			<xsd:element name="control_port" type="xsd:string"
+				minOccurs="0" maxOccurs="1" default="2000" />
+			<xsd:element name="storage" type="Storage" minOccurs="0"
+				maxOccurs="1" />
+
+			<xsd:element name="connector_sleep_time" type="xsd:string"
+				minOccurs="0" maxOccurs="1" default="10" />
+
+			<xsd:element name="protocol_log_file" type="xsd:string"
+				default="logs/protocol_log.txt" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="protocol_log_level" type="xsd:string"
+				default="severe" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="protocol_log_type" type="xsd:string"
+				default="text" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="protocol_std_log_level" type="xsd:string"
+				default="off" minOccurs="0" maxOccurs="1" />
+
+			<xsd:element name="framework_log_file" type="xsd:string"
+				default="logs/framework_log.txt" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="framework_log_level" type="xsd:string"
+				default="severe" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="framework_log_type" type="xsd:string"
+				default="text" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="framework_std_log_level" type="xsd:string"
+				default="off" minOccurs="0" maxOccurs="1" />
+
+			<xsd:element name="protocol_properties" minOccurs="0"
+				maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="property" type="Property"
+							minOccurs="1" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="Clients">
+		<xsd:sequence>
+			<xsd:element name="client" type="Client" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Client">
+		<xsd:all>
+			<xsd:element name="config" type="Parameters" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="connect_to" type="ConnectTo"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:all>
+		<xsd:attribute name="id" type="xsd:string" use="required" />
+		<xsd:attribute name="ip" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ConnectTo">
+		<xsd:sequence>
+			<xsd:element name="server" type="ServerInfo" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ServerInfo">
+		<xsd:attribute name="id" type="xsd:string" use="required" />
+		<xsd:attribute name="ip" type="xsd:string" use="required" />
+		<xsd:attribute name="port" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Storage">
+		<xsd:sequence>
+			<xsd:element name="class_name" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="property" type="Property" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Property">
+		<xsd:attribute name="key" type="xsd:string" use="required" />
+		<xsd:attribute name="value" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Variations">
+		<xsd:sequence>
+			<xsd:element name="variation" type="Variation" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+		
+	</xsd:complexType>
+	
+	<xsd:complexType name="Variation">
+		<xsd:sequence>
+			<xsd:element name="property" type="Property" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+	</xsd:complexType>
+	
+</xsd:schema>
