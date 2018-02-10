@@ -208,7 +208,10 @@ public abstract class DKVFServer extends DKVFBase {
 			try {
 				ServerMessage sm;
 				synchronized (serversIn.get(serverId)) {
-					sm = ServerMessage.parseDelimitedFrom(serversIn.get(serverId));
+					int size = serversIn.get(serverId).readInt32();
+					byte[] newMessageBytes = serversIn.get(serverId).readRawBytes(size);
+					sm = ServerMessage.parseFrom(newMessageBytes);
+					//sm = ServerMessage.parseDelimitedFrom(serversIn.get(serverId));
 					frameworkLOGGER.finer(MessageFormat.format("Read from server with id={0} \n{1}", serverId, sm.toString()));
 				}
 				return sm;
