@@ -156,6 +156,11 @@ public abstract class DKVFServer extends DKVFBase {
 			return NetworkStatus.SUCCESS;
 		} else {
 			frameworkLOGGER.severe(MessageFormat.format("No server found for id= {0}", serverId));
+			try {
+				throw new Exception();
+			}catch (Exception e) {
+				frameworkLOGGER.severe(Utils.exceptionToString(e));
+			}
 			return NetworkStatus.FAILURE;
 		}
 	}
