@@ -6,8 +6,8 @@ workload=edu.msu.cse.dkvf.ycsbWorkload.DKVFWorkload
 readallfields=false
 
 readproportion=0.5
-updateproportion=0.5
-insertproportion=0
+updateproportion=0
+insertproportion=0.5
 ampinsertproportion=0
 rotxproportion = 0
 
