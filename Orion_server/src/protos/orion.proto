@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package Metadata;
+
+option java_package = "edu.msu.cse.dkvf.metadata";
+option java_outer_classname = "Metadata";
+
+message DcTimeItem { // A pari of datacenter ID and timestamp
+                     int32 dc_id = 1; //datacenter id
+                     int64 time = 2; //timestamp
+}
+
+message Record { // A record item
+                 bytes value = 2; //value
+                 int64 ut = 3; //update time
+                 int32 sr = 4; //source replica ID
+                 repeated DcTimeItem ds_item = 5; //Dependency Set (DS)
+}
+
+//---------------Client messages---------------
+message GetMessage {
+    string key = 1;
+    repeated int64 dsv_item = 2; //Dependecy Stable Vector (DSV) at the client
+}
+
+message PutMessage {
+    string key = 1;
+    bytes value = 2;
+    repeated DcTimeItem ds_item = 3; //DS
+}
+
+message RotMessage {
+    repeated string key = 1;
+    repeated int64 dsv_item = 2;
+}
+
+message ClientMessage {
+    oneof message_type {
+        GetMessage get_message = 1;
+        PutMessage put_message = 2;
+        RotMessage rot_message = 3;
+    }
+}
+//-----------------------------------------------
+
+//-----------------Client Reply------------------
+message GetReply {
+    bytes value = 1;
+    repeated DcTimeItem ds_item = 3; //DS
+    repeated int64 dsv_item = 2; //DSV
+}
+
+message PutReply {
+    int64 ut = 1;
+    int32 sr = 2;
+}
+
+message RotReply {
+    map<string, bytes> key_value = 1;
+    map<int32, int64> ds_items = 2;
+    repeated int64 dsv_item = 3;
+}
+
+message ClientReply {
+    bool status = 1;
+    oneof message_type {
+        GetReply get_reply = 2;
+        PutReply put_reply = 3;
+        RotReply rot_reply = 4;
+    }
+}
+//-----------------------------------------------
+//-----------------Server messages---------------
+message ReplicateMessage {
+    string key = 1;
+    Record rec = 2;
+    int32 dc_id = 3;
+}
+
+message HeartbeatMessage {
+    int64 time = 1;
+    int32 dc_id = 2;
+}
+
+message VVMessage {
+    repeated int64 vvItem = 1;
+    int32 p_id = 2;
+}
+
+message DSVMessage {
+    repeated int64 dsvItem = 1;
+}
+
+message ServerMessage {
+    oneof message_type {
+        ReplicateMessage replicate_message = 1;
+        HeartbeatMessage heartbeat_message = 2;
+        VVMessage vv_message = 3;
+        DSVMessage dsv_message = 4;
+    }
+}
+//-----------------------------------------------
+
